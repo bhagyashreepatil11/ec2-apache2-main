@@ -9,7 +9,6 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - mv target/ROOT.war ROOT.war
       - echo Building the Docker image...          
       - docker build -t myrepo .
       - docker tag myrepo:latest 316972670200.dkr.ecr.us-east-1.amazonaws.com/myrepo:latest
@@ -23,5 +22,4 @@ phases:
       
 artifacts:
   files:
-    - 'target/*.war'
     - imagedefinitions.json
