@@ -4,20 +4,24 @@ phases:
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase...
-      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 377021732766.dkr.ecr.us-east-1.amazonaws.com
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 316972670200.dkr.ecr.us-east-1.amazonaws.com
+      
   build:
     commands:
       - echo Build started on `date`
+      - mv target/ROOT.war ROOT.war
       - echo Building the Docker image...          
-      - docker build -t demo .
-      - docker tag demo:latest 377021732766.dkr.ecr.us-east-1.amazonaws.com/demo:latest
+      - docker build -t myrepo .
+      - docker tag myrepo:latest 316972670200.dkr.ecr.us-east-1.amazonaws.com/myrepo:latest
       
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push 377021732766.dkr.ecr.us-east-1.amazonaws.com/demo:latest
-      - printf '[{"name":"demo","imageUri":"377021732766.dkr.ecr.us-east-1.amazonaws.com/demo:latest"}]' > imagedefinition.json
+      - docker push 316972670200.dkr.ecr.us-east-1.amazonaws.com/myrepo:latest
+      - printf '[{"name":"democluster","imageUri":"316972670200.dkr.ecr.us-east-1.amazonaws.com/myrepo"}]' > imagedefinitions.json
+      
 artifacts:
   files:
-    - imagedefinition.json
+    - 'target/*.war'
+    - imagedefinitions.json
